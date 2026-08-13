@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "can-j1939-firmware-sniffer-lab"
+version = "0.1.0"
+description = "ESP32 MCP2515 CAN/J1939 sniffer lab with firmware skeleton, parser, simulation and Python tooling."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Guilherme Lacerda" }]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2,<10",
+  "pytest-cov>=5.0",
+  "ruff>=0.6",
+]
+
+[project.scripts]
+j1939-sniffer-lab = "can_j1939_firmware_sniffer_lab.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+
+[tool.coverage.run]
+branch = true
+source = ["can_j1939_firmware_sniffer_lab"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 85
+
