@@ -13,6 +13,17 @@ def test_export_json_and_csv(tmp_path) -> None:
     assert "timestamp_ms,can_id,priority" in csv_path.read_text(encoding="utf-8")
 
 
+def test_export_errors_surface_invalid_path(tmp_path) -> None:
+    directory = tmp_path / "directory"
+    directory.mkdir()
+    try:
+        write_json(synthetic_frames(), directory)
+    except OSError as exc:
+        assert exc
+    else:
+        raise AssertionError("expected export to a directory path to fail")
+
+
 def test_cli_simulate_filters_and_exports(tmp_path, capsys) -> None:
     json_path = tmp_path / "filtered.json"
     assert cli.main(["simulate", "--pgn", "61444", "--json", str(json_path)]) == 0

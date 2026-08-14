@@ -23,6 +23,10 @@ def test_malformed_line_errors() -> None:
         parse_sniffer_line("bad")
     with pytest.raises(ValueError, match="DLC mismatch"):
         parse_sniffer_line("1,0x18F00401,8,AA")
+    with pytest.raises(ValueError, match="Standard 11-bit"):
+        parse_sniffer_line("1,0x7FF,1,AA")
+    with pytest.raises(ValueError, match="DLC"):
+        parse_sniffer_line("1,0x18F00401,9,AA BB CC DD EE FF 00 11 22")
 
 
 def test_filter_by_pgn_source_and_destination() -> None:
@@ -36,4 +40,11 @@ def test_statistics_counts_frames() -> None:
     stats = frame_statistics(synthetic_frames())
     assert stats["total"] == 5
     assert stats["by_pgn"]["61444"] == 2
+
+
+def test_filter_combinations_and_empty_dataset() -> None:
+    frames = synthetic_frames()
+    assert filter_frames(frames, pgn=61444, source=0x01)
+    assert filter_frames(frames, pgn=61444, source=0x22) == []
+    assert frame_statistics([]) == {"total": 0, "by_pgn": {}, "by_source": {}}
 
