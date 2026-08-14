@@ -1,6 +1,14 @@
 # CAN J1939 Firmware Sniffer Lab
 
+[![CI](https://github.com/guilherme-lacerda-tech/can-j1939-firmware-sniffer-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/guilherme-lacerda-tech/can-j1939-firmware-sniffer-lab/actions/workflows/ci.yml)
+[![Firmware](https://github.com/guilherme-lacerda-tech/can-j1939-firmware-sniffer-lab/actions/workflows/firmware.yml/badge.svg)](https://github.com/guilherme-lacerda-tech/can-j1939-firmware-sniffer-lab/actions/workflows/firmware.yml)
+[![Security](https://github.com/guilherme-lacerda-tech/can-j1939-firmware-sniffer-lab/actions/workflows/security.yml/badge.svg)](https://github.com/guilherme-lacerda-tech/can-j1939-firmware-sniffer-lab/actions/workflows/security.yml)
+[![Release](https://img.shields.io/github/v/release/guilherme-lacerda-tech/can-j1939-firmware-sniffer-lab)](https://github.com/guilherme-lacerda-tech/can-j1939-firmware-sniffer-lab/releases)
+[![License](https://img.shields.io/github/license/guilherme-lacerda-tech/can-j1939-firmware-sniffer-lab)](LICENSE)
+
 Public ESP32/MCP2515 CAN/J1939 sniffer lab with firmware concepts, extended CAN ID parsing, filters, synthetic frames, Python analysis tooling and export support.
+
+Portuguese documentation: [README.pt-BR.md](README.pt-BR.md), [docs/bench-setup.md](docs/bench-setup.md) and [docs/hardware-validation.md](docs/hardware-validation.md).
 
 ## Why
 
@@ -108,8 +116,13 @@ Do not commit real vehicle/customer data, proprietary PGNs, plates, VINs, intern
 ## Limitations
 
 - Simulation/software validation completed; hardware validation pending.
-- Firmware is a public skeleton and is not compiled in CI because the embedded toolchain is not required in this environment.
+- Firmware skeleton compile is validated when the firmware workflow is enabled and green; physical CAN bus validation is still pending.
 - Physical bus timing and electrical behavior are not measured in this release.
+
+## Related Projects
+
+- [j1939-can-bench-reader](https://github.com/guilherme-lacerda-tech/j1939-can-bench-reader): related compact J1939 parser project.
+- This repository is the deeper firmware/sniffer/filter/export lab.
 
 ## Roadmap
 

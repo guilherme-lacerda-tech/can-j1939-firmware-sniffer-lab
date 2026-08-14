@@ -9,7 +9,11 @@ def parse_sniffer_line(line: str) -> J1939Frame:
         raise ValueError("Expected line format: timestamp_ms,can_id_hex,dlc,payload_hex")
     timestamp_ms = int(parts[0])
     can_id = int(parts[1], 16)
+    if can_id <= 0x7FF:
+        raise ValueError("Standard 11-bit CAN IDs are not accepted for J1939 sniffer lines")
     declared_dlc = int(parts[2])
+    if declared_dlc < 0 or declared_dlc > 8:
+        raise ValueError("DLC must be between 0 and 8")
     payload = parse_payload_hex(parts[3])
     if declared_dlc != len(payload):
         raise ValueError(f"DLC mismatch: declared {declared_dlc}, got {len(payload)} bytes")
