@@ -23,6 +23,7 @@ J1939 bench work is more than reading a CAN ID. A useful sniffer needs firmware-
 - Filtering by PGN, source and destination.
 - CSV and JSON export.
 - Synthetic CAN/J1939 dataset for hardware-free CI and demos.
+- Fake serial source abstraction plus parser throughput benchmark for larger synthetic datasets.
 - Tests for malformed frames, PGN extraction, filtering, statistics and exports.
 
 ## Architecture

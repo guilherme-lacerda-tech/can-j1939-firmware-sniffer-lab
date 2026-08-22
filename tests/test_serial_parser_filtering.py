@@ -1,7 +1,8 @@
 import pytest
 
 from can_j1939_firmware_sniffer_lab.filtering import filter_frames, frame_statistics
-from can_j1939_firmware_sniffer_lab.serial_parser import parse_lines, parse_sniffer_line
+from can_j1939_firmware_sniffer_lab.benchmark import benchmark_parser, generate_large_dataset
+from can_j1939_firmware_sniffer_lab.serial_parser import FakeSerialSource, parse_lines, parse_sniffer_line, parse_source
 from can_j1939_firmware_sniffer_lab.simulation import synthetic_frames
 
 
@@ -47,4 +48,17 @@ def test_filter_combinations_and_empty_dataset() -> None:
     assert filter_frames(frames, pgn=61444, source=0x01)
     assert filter_frames(frames, pgn=61444, source=0x22) == []
     assert frame_statistics([]) == {"total": 0, "by_pgn": {}, "by_source": {}}
+
+
+def test_fake_serial_source_parses_lines() -> None:
+    source = FakeSerialSource(["100,0x18F00401,8,11 22 33 44 55 66 77 88"])
+
+    assert parse_source(source)[0].pgn == 61444
+
+
+def test_large_dataset_benchmark_reports_throughput() -> None:
+    assert len(generate_large_dataset(25)) == 26
+    result = benchmark_parser(25)
+    assert result["frames"] == 25
+    assert result["frames_per_second"] > 0
 

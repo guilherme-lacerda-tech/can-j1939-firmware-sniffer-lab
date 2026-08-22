@@ -3,6 +3,14 @@ from __future__ import annotations
 from can_j1939_firmware_sniffer_lab.j1939 import J1939Frame, build_frame, parse_payload_hex
 
 
+class FakeSerialSource:
+    def __init__(self, lines: list[str]):
+        self._lines = lines
+
+    def read_lines(self) -> list[str]:
+        return list(self._lines)
+
+
 def parse_sniffer_line(line: str) -> J1939Frame:
     parts = [part.strip() for part in line.strip().split(",")]
     if len(parts) != 4:
@@ -28,4 +36,8 @@ def parse_lines(lines: list[str]) -> list[J1939Frame]:
             continue
         frames.append(parse_sniffer_line(stripped))
     return frames
+
+
+def parse_source(source: FakeSerialSource) -> list[J1939Frame]:
+    return parse_lines(source.read_lines())
 
